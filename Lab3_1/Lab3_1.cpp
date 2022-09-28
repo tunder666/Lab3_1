@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string.h>
+
 using namespace std;
 
 
@@ -50,7 +51,7 @@ char* CountingSort(char arr[], int size) {
     char output[1000];
 
     int count[256];
-    memset(count, 0, sizeof(count));
+    memset(count, 0, sizeof(count)); // 0 to all elem of array
 
     for (int i = 0; i < size; i++) {
         count[arr[i]]++;
@@ -91,10 +92,75 @@ void task2()
     system("pause");
 }
 
+void merge(int arr[], int start, int end, int mid)
+{
+    int merged_arr[1000];
+    int i, j, k;
+    i = start;
+    k = start;
+    j = mid + 1;
+
+    while (i <= mid && j <= end) {
+        if (arr[i] < arr[j]) {
+            merged_arr[k] = arr[i];
+            k++;
+            i++;
+        }
+        else {
+            merged_arr[k] = arr[j];
+            k++;
+            j++;
+        }
+    }
+
+    while (i <= mid) {
+        merged_arr[k] = arr[i];
+        k++;
+        i++;
+    }
+
+    while (j <= end) {
+        merged_arr[k] = arr[j];
+        k++;
+        j++;
+    }
+
+    for (i = start; i < k; i++) {
+        arr[i] = merged_arr[i];
+    }
+}
+void mergeSort(int arr[], int start, int end)
+{
+    int mid;
+    if (start < end) {
+        mid = (start + end) / 2;
+        mergeSort(arr, start, mid);
+        mergeSort(arr, mid + 1, end);
+        merge(arr, start, end, mid);
+    }
+   
+}
 
 void task3()
 {
-    int arr[] = { 5, 2, 5, 8, 1, 9, 6 };
+    cout << "MERGE SORT\n\n";
+
+    int arr_size;
+    cout << "Enter size of array: ";
+    cin >> arr_size;
+
+    int arr[1000];
+    cout << "Enter array: " << endl;
+    for (int i = 0; i < arr_size; i++) {
+        cout << i << ". ";
+        cin >> arr[i];
+    }
+
+    mergeSort(arr, 0, arr_size - 1);
+
+    cout << "\n-Sorted array-\n";
+    int_array_print(arr, arr_size);
+
     system("pause");
 }
 
@@ -110,6 +176,7 @@ int main()
         cout << "What do you want to choose? ";
         cin >> choice;
         cout << "===========================\n\n";
+
         switch (choice)
         {
         case 1:
